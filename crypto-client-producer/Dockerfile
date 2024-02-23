@@ -15,8 +15,6 @@ ENV PYTHONUNBUFFERED=1 \
     PYSETUP_PATH="/opt/pysetup" \
     VENV_PATH="/opt/pysetup/.venv"
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
-ENV BASE_PATH=${BASE_PATH}
-ENV SOURCE_PATH=${SOURCE_PATH}
 
 
 FROM python-base as builder-base
@@ -26,7 +24,7 @@ WORKDIR $PYSETUP_PATH
 
 
 FROM python-base as development
-ARG SOURCE_PATH=src/cryptocom_stream
+ARG SOURCE_PATH=cryptocom_stream
 WORKDIR $PYSETUP_PATH
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
