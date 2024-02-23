@@ -1,4 +1,4 @@
-cryptocom_stream.test:
+cryptocom-stream.test:
 	cd crypto-client-producer/ && time poetry run pytest --durations=0 .
 
 run:
@@ -7,3 +7,6 @@ run:
 
 stop:
 	docker-compose stop
+
+check-healcheck:
+	docker inspect crypto-kafka | jq ".[0].State.Health"
