@@ -25,7 +25,7 @@ services:
   cryptocom_stream:
     container_name: cryptocom-stream
     build:
-      context: crypto-client-producer/
+      context: cryptocom-stream-producer/
       dockerfile: Dockerfile
     env_file:
       - .env
