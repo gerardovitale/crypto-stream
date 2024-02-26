@@ -8,5 +8,5 @@ run:
 stop:
 	docker-compose stop
 
-check-healcheck:
+check-kafka-healcheck:
 	docker inspect crypto-kafka | jq ".[0].State.Health"
