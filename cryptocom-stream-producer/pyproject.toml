@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "crypto-client-producer"
+name = "cryptocom-stream-producer"
 version = "0.1.0"
 description = ""
 authors = ["Gerardo Vitale <gerardo.vitale@thoughtworks.com>"]

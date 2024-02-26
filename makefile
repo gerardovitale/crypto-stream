@@ -1,5 +1,5 @@
-cryptocom-stream.test:
-	cd crypto-client-producer/ && time poetry run pytest --durations=0 .
+producer.test:
+	cd cryptocom-stream-producer/ && time poetry run pytest --durations=0 .
 
 run:
 	docker-compose build
