@@ -39,3 +39,10 @@ def generate_msg_from_res(response: dict) -> str:
 
     data = response.get("result", {}).get("data", {})
     return json.dumps([_generate_message(obj) for obj in data])
+
+
+def acked(err, msg):
+    if err is not None:
+        logger.error("Failed to deliver message: %s: %s" % (str(msg), str(err)))
+    else:
+        logger.info("Message produced: %s" % (str(msg)))

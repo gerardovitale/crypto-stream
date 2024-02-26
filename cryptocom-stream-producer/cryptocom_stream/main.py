@@ -10,6 +10,7 @@ from cryptocom import create_heartbeat_response
 from cryptocom import create_request_message
 from cryptocom import get_response
 from dotenv import load_dotenv
+from kafka import acked
 from kafka import create_topic_if_not_exists
 from kafka import generate_msg_from_res
 
@@ -32,7 +33,7 @@ async def main() -> None:
     }
 
     await create_topic_if_not_exists(kafka_config, kafka_topic_name)
-    kafka_producer = Producer(kafka_config)
+    kafka_producer = Producer(**kafka_config)
 
     async with websockets.connect(uri) as websocket_client:
         time.sleep(1)
@@ -54,10 +55,12 @@ async def main() -> None:
                 await websocket_client.send(json.dumps(heartbeat_response))
 
             else:
-                kafka_producer.produce(kafka_topic_name, value=generate_msg_from_res(res_obj))
+                kafka_producer.produce(kafka_topic_name, value=generate_msg_from_res(res_obj), callback=acked)
                 logging.info(f"Published into kafka serve in topic: {kafka_topic_name}")
                 kafka_producer.poll(1)
                 logging.info("Message polled!!")
+
+            kafka_producer.flush()
 
 
 if __name__ == "__main__":
