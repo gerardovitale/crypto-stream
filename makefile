@@ -6,7 +6,7 @@ include $(ENV)
 export
 
 producer.test:
-	cd cryptocom-stream-producer/ && time poetry run pytest --durations=0 .
+	cd $(PRODUCER_BASE_PATH) && time poetry run pytest --durations=0 .
 
 run:
 	docker-compose build
