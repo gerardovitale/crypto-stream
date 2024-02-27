@@ -6,10 +6,10 @@ from unittest.mock import Mock
 from unittest.mock import patch
 
 import websockets
-from cryptocom_stream.cryptocom import create_heartbeat_response
-from cryptocom_stream.cryptocom import create_request_message
-from cryptocom_stream.cryptocom import EmptyChannelList
-from cryptocom_stream.cryptocom import generate_nonce
+from cryptocom_stream_producer.cryptocom import create_heartbeat_response
+from cryptocom_stream_producer.cryptocom import create_request_message
+from cryptocom_stream_producer.cryptocom import EmptyChannelList
+from cryptocom_stream_producer.cryptocom import generate_nonce
 
 
 class TestCryptoCom(TestCase):
@@ -22,7 +22,7 @@ class TestCryptoCom(TestCase):
         actual_nonce_2 = generate_nonce()
         assert actual_nonce_2 != actual_nonce_1
 
-    @patch("cryptocom_stream.cryptocom.generate_nonce")
+    @patch("cryptocom_stream_producer.cryptocom.generate_nonce")
     def test_create_request_message_when_a_valid_channel_list_is_passed(self, generate_nonce_mock: Mock):
         test_channel_list = ["test_channel"]
 
@@ -46,7 +46,7 @@ class TestCryptoCom(TestCase):
         self.assertRaises(TypeError, create_request_message, 12345)
         self.assertRaises(TypeError, create_request_message, None)
 
-    @patch("cryptocom_stream.cryptocom.generate_nonce")
+    @patch("cryptocom_stream_producer.cryptocom.generate_nonce")
     def test_create_heartbeat_response(self, generate_nonce_mock: Mock):
         test_response_obj_id = {"id": 1}
 
