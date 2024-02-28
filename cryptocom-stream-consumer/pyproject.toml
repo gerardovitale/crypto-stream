@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "cryptocom-stream-consumer"
+version = "0.1.0"
+description = ""
+authors = ["Gerardo Vitale <gerardo.vitale@thoughtworks.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+apache-beam = "^2.54.0"
+python-dotenv = "^1.0.1"
+pyspark = "^3.5.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "7.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
