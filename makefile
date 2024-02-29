@@ -15,6 +15,7 @@ stop:
 clean:
 	yes | docker container prune
 	yes | docker image prune
+	yes | docker volume prune
 
 
 # PRODUCER
@@ -22,7 +23,7 @@ producer.run:
 	docker-compose up $(PRODUCER_CONTAINER_NAME)
 
 producer.test:
-	cd $(PRODUCER_BASE_PATH) && time poetry run pytest --durations=0 .
+	cd $(PRODUCER_BASE_PATH) && time poetry run pytest -vv --durations=0 .
 
 
 # CONSUMER

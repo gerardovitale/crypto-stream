@@ -1,13 +1,14 @@
 import json
 import logging
 
+from confluent_kafka import Producer
 from confluent_kafka.admin import AdminClient
 from confluent_kafka.admin import NewTopic
 
 logger = logging.getLogger(__name__)
 
 
-async def create_topic_if_not_exists(kafka_config: str, topic: str) -> None:
+async def create_topic_if_not_exists(kafka_config: dict, topic: str) -> None:
     logging.info(f"Kafka config loaded: {kafka_config}")
     admin_client = AdminClient(kafka_config)
     topic_metadata = admin_client.list_topics(timeout=10)
@@ -19,7 +20,20 @@ async def create_topic_if_not_exists(kafka_config: str, topic: str) -> None:
     logging.info(f"Topic `{topic}` already exists")
 
 
-def generate_msg_from_res(response: dict) -> str:
+def ingest_into_kafka(producer: Producer, topic_name: str, response: dict) -> None:
+    data_list = get_data_from_response(response)
+    for data_point in data_list:
+        producer.produce(topic_name, value=generate_kafka_message(data_point), callback=acked)
+        logger.info(f"Published into kafka serve in topic: {topic_name}")
+        producer.poll(1)
+        logger.info("Message polled!!")
+
+
+def generate_kafka_message(data: dict) -> str:
+    return json.dumps(data)
+
+
+def get_data_from_response(response: dict):
     def _generate_message(obj: dict) -> dict:
         return {
             "highest": obj.get("h", ""),
@@ -38,11 +52,10 @@ def generate_msg_from_res(response: dict) -> str:
         }
 
     data = response.get("result", {}).get("data", {})
-    return json.dumps([_generate_message(obj) for obj in data])
+    return map(_generate_message, data)
 
 
 def acked(err, msg):
     if err is not None:
         logger.error("Failed to deliver message: %s: %s" % (str(msg), str(err)))
-    else:
-        logger.info("Message produced: %s" % (str(msg)))
+    logger.info("Message produced: %s" % (str(msg)))

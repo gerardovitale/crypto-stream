@@ -1,11 +1,8 @@
-import asyncio
-import json
 from time import sleep
 from unittest import TestCase
 from unittest.mock import Mock
 from unittest.mock import patch
 
-import websockets
 from cryptocom_stream_producer.cryptocom import create_heartbeat_response
 from cryptocom_stream_producer.cryptocom import create_request_message
 from cryptocom_stream_producer.cryptocom import EmptyChannelList
