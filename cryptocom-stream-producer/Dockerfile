@@ -29,6 +29,7 @@ WORKDIR $PYSETUP_PATH
 COPY --from=builder-base $POETRY_HOME $POETRY_HOME
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 WORKDIR /app
-COPY ${SOURCE_PATH} poetry.lock pyproject.toml ./
+COPY poetry.lock pyproject.toml ./
 RUN poetry install --no-dev
+COPY ${SOURCE_PATH} ./
 ENTRYPOINT [ "poetry", "run", "python3", "main.py" ]
