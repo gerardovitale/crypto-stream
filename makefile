@@ -39,11 +39,11 @@ consumer.test:
 kafka.run:
 	docker-compose up $(KAFKA_CONTAINER_NAME)
 
-kafka.check-healcheck:
+kafka.check-healthcheck:
 	docker inspect $(KAFKA_CONTAINER_NAME) | jq ".[0].State.Health"
 
 kafka.check-messages:
-	docker run --rm -it --network crypto-stream_app-tier \
+	docker run --rm -it --network crypto-stream_default \
 	--name my_container --entrypoint /bin/bash \
 	bitnami/kafka:3.4.1 -c "kafka-console-consumer.sh \
 	--consumer.config /opt/bitnami/kafka/config/consumer.properties \
