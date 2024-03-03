@@ -28,7 +28,6 @@ producer.test:
 
 # CONSUMER
 consumer.run:
-	# docker-compose up $(CONSUMER_CONTAINER_NAME)
 	cd $(CONSUMER_BASE_PATH) && poetry run python3 cryptocom_stream_consumer/main.py
 
 consumer.test:
